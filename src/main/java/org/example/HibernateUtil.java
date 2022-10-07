@@ -1,8 +1,8 @@
 package org.example;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
@@ -16,13 +16,18 @@ public class HibernateUtil {
 
         try {
 
-            Configuration configuration = new Configuration();
-            configuration.configure();
+//            Configuration configuration = new Configuration();
+//            configuration.configure();
+//
+//            return configuration.buildSessionFactory();
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                    .applySettings(configuration.getProperties()).build();
+                    .configure("hibernate.cfg.xml")
+                    .build();
 
-            return configuration.buildSessionFactory(serviceRegistry);
+            return new MetadataSources( serviceRegistry )
+                    .buildMetadata()
+                    .buildSessionFactory();
 
         } catch (Throwable ex) {
             System.out.println("Fail to build session factory");
