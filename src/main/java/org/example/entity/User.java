@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -35,4 +37,16 @@ public class User implements Serializable {
     @Basic
     @Column(name = "registrationDate")
     private Timestamp registrationDate;
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "friends",
+            joinColumns = { @JoinColumn(name = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "sender") }
+    )
+    private Set<User> friendsInviters = new HashSet<>();
+
+    @ManyToMany(mappedBy = "users")
+    private Set<User> friendsReceiver = new HashSet<>();
+
 }

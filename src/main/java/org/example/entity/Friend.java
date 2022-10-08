@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "friends")
@@ -22,9 +23,9 @@ public class Friend implements Serializable {
     @Basic
     @Column(name = "sender", nullable = false)
     private Long sender;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Basic
     @Column(name = "receiver", nullable = false)
     private Long receiver;
+
 }

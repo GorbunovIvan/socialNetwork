@@ -16,22 +16,32 @@ public class Application {
 
         //testSimpleSQLQuery(sessionFactory);
 
-        //UserDAO userDAO = new UserDAO(sessionFactory);
+        //DAO userDAO = new UserDAO(sessionFactory);
+
+//        createUserIfNotExists("Ivan", "Eastert", "12345678", sessionFactory);
+//        createUserIfNotExists("Alex", "Ali", "qwerty", sessionFactory);
+//        createUserIfNotExists("Maxim", "Max", "qwe123", sessionFactory);
+
+        HibernateUtil.shutDown();
+
+    }
+
+    public static void createUserIfNotExists(String name, String login, String password, SessionFactory sessionFactory) {
 
         try (Session session = sessionFactory.openSession()) {
 
             Query query = session.createQuery("from User WHERE name =: name AND login =: login");
-            query.setParameter("name", "Ivan");
-            query.setParameter("login", "Eastert");
+            query.setParameter("name", name);
+            query.setParameter("login", login);
 
-            boolean IvanIsCreated = !query.list().isEmpty();
+            boolean userExists = !query.list().isEmpty();
 
-            if (!IvanIsCreated) {
+            if (!userExists) {
 
                 User user = new User();
-                user.setName("Ivan");
-                user.setLogin("Eastert");
-                user.setPassword("12345678");
+                user.setName(name);
+                user.setLogin(login);
+                user.setPassword(password);
                 user.setRegistrationDate(Timestamp.from(Instant.now()));
 
                 session.save(user);
@@ -40,15 +50,13 @@ public class Application {
 
         }
 
-        HibernateUtil.shutDown();
-
     }
 
     public static void testSimpleSQLQuery(SessionFactory sessionFactory) {
-//        try (Session session = sessionFactory.openSession()) {
-//            Query SQLQuery = session.createSQLQuery("TRUNCATE TABLE users");
-//            SQLQuery.executeUpdate();
-//        }
+        try (Session session = sessionFactory.openSession()) {
+            Query SQLQuery = session.createNativeQuery("TRUNCATE TABLE users");
+            SQLQuery.executeUpdate();
+        }
     }
 
 }
