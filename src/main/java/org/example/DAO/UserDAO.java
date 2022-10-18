@@ -4,7 +4,7 @@ import org.example.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class UserDAO implements DAO<User, String> {
+public class UserDAO implements DAO<User, Long> {
 
     private final SessionFactory sessionFactory;
 
@@ -22,9 +22,9 @@ public class UserDAO implements DAO<User, String> {
     }
 
     @Override
-    public User read(String entity) {
+    public User read(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            User user = session.get(User.class, entity);
+            User user = session.getReference(User.class, id);
             return user;
         }
     }

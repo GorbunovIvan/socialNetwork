@@ -14,14 +14,14 @@ CREATE TABLE IF NOT EXISTS friends (
                                     receiver BIGINT UNSIGNED NOT NULL
 );
 ALTER TABLE `social_network`.`friends`
-    ADD CONSTRAINT friends_uniqueIDs UNIQUE (sender, receiver),
+    ADD CONSTRAINT friends_uniqueIDs UNIQUE (sender_id, receiver_id),
     ADD CONSTRAINT `fk_id_sender`
-        FOREIGN KEY (`sender`)
+        FOREIGN KEY (sender_id)
             REFERENCES `social_network`.`users` (`id`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     ADD CONSTRAINT `fk_id_receiver`
-        FOREIGN KEY (`receiver`)
+        FOREIGN KEY (receiver_id)
             REFERENCES `social_network`.`users` (`id`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION

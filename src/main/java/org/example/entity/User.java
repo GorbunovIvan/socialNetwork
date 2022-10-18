@@ -38,15 +38,10 @@ public class User implements Serializable {
     @Column(name = "registrationDate")
     private Timestamp registrationDate;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "friends",
-            joinColumns = { @JoinColumn(name = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "sender") }
-    )
-    private Set<User> friendsInviters = new HashSet<>();
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private Set<Friend> friendsInviters = new HashSet<>();
 
-    @ManyToMany(mappedBy = "users")
-    private Set<User> friendsReceiver = new HashSet<>();
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    private Set<Friend> friendsReceivers = new HashSet<>();
 
 }

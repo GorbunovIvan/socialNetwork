@@ -4,14 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 
 @Entity
 @Table(name = "friends")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class Friend implements Serializable {
 
@@ -20,12 +18,16 @@ public class Friend implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Basic
-    @Column(name = "sender", nullable = false)
-    private Long sender;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sender_id")
+    private User sender;
 
-    @Basic
-    @Column(name = "receiver", nullable = false)
-    private Long receiver;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
 
+    public Friend(User sender, User receiver) {
+        this.sender = sender;
+        this.receiver = receiver;
+    }
 }
